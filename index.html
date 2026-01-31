@@ -7,21 +7,25 @@
     <style>
         body { margin: 0; background-color: #0a0a0a; color: white; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
         #gate { text-align: center; transition: opacity 1s; }
-        input { background: transparent; border: none; border-bottom: 1px solid #444; color: white; text-align: center; font-size: 1.2rem; outline: none; width: 100px; padding: 10px; }
+        /* 입력창 디자인: 밑줄만 남긴 미니멀한 스타일 */
+        input { background: transparent; border: none; border-bottom: 1px solid #444; color: white; text-align: center; font-size: 1.2rem; outline: none; width: 120px; padding: 10px; transition: border-color 0.5s; }
+        input:focus { border-bottom-color: #888; }
+        
+        /* 이미지 현상 연출 */
         #content { display: none; opacity: 0; transition: opacity 3s; text-align: center; width: 90%; max-width: 500px; }
-        img { width: 100%; height: auto; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        img { width: 100%; height: auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .gap-link { display: block; margin-top: 50px; text-decoration: none; color: #333; font-size: 0.8rem; transition: color 1s; }
         .gap-link:hover { color: #888; }
     </style>
 </head>
 <body>
     <div id="gate">
-        <input type="password" id="pw" maxlength="3" autofocus placeholder="...">
+        <input type="password" id="pw" maxlength="4" autofocus placeholder="...">
     </div>
 
     <div id="content">
-        <img src="your_poem_image.png" alt="겨울 선착장">
-        <a href="your_kakao_link" class="gap-link">[ 틈 ]</a>
+        <img src="1.png" alt="겨울 선착장">
+        <a href="https://open.kakao.com/o/sY8oahei" class="gap-link">[ Link ]</a>
     </div>
 
     <script>
@@ -30,12 +34,17 @@
         const content = document.getElementById('content');
 
         pwInput.addEventListener('input', (e) => {
-            if (e.target.value === '153') {
+            // 비밀번호를 0201로 수정했습니다
+            if (e.target.value === '0201') {
+                // 입력창 페이드 아웃
                 gate.style.opacity = '0';
                 setTimeout(() => {
                     gate.style.display = 'none';
+                    // 이미지 영역 표시 및 페이드 인 시작
                     content.style.display = 'block';
-                    setTimeout(() => { content.style.opacity = '1'; }, 100);
+                    setTimeout(() => { 
+                        content.style.opacity = '1'; 
+                    }, 100);
                 }, 1000);
             }
         });

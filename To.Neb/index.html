@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To.Neb</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
         /* 기본 설정 */
         body { 
@@ -25,9 +30,8 @@
             width: 100%;
         }
 
-        /* 3. 오답 시 흔들리는 애니메이션 (고급스러운 쉐이크) */
+        /* 오답 시 흔들리는 애니메이션 */
         @keyframes shake {
-            /* 붉은색 변경 효과 제거 및 움직임 폭 축소 (5px -> 3px) */
             0% { transform: translateX(0); }
             25% { transform: translateX(-3px); }
             50% { transform: translateX(3px); }
@@ -39,26 +43,29 @@
             animation: shake 0.4s ease-in-out;
         }
 
-        /* 4. 입력창 디자인 개선 (세련된 크기와 배치) */
+        /* [수정됨] 입력창 디자인 개선 (폰트 변경 및 디자인 최적화) */
         input { 
             background: transparent; 
             border: none; 
             border-bottom: 1px solid #555; 
             color: #eee; 
             text-align: center; 
-            /* 폰트 크기 축소 */
-            font-size: 1.2rem; 
             outline: none; 
-            /* 너비와 간격 조정으로 비율 개선 */
-            width: 120px; 
             padding: 10px; 
-            letter-spacing: 6px; 
-            font-family: inherit;
-            border-radius: 0; /* 모바일 기본 스타일 제거 */
+            border-radius: 0; 
             transition: border-bottom-color 0.3s;
+
+            /* 폰트: 코모란트 가라몬드 적용 */
+            font-family: 'Cormorant Garamond', serif; 
+            
+            /* 디자인 디테일: 숫자가 우아하게 보이도록 크기와 자간 조정 */
+            font-size: 1.8rem;   /* 폰트가 얇아서 크기를 키움 */
+            font-weight: 600;    /* 선명도를 위해 두께 추가 */
+            width: 150px;        /* 커진 숫자에 맞춰 너비 확보 */
+            letter-spacing: 10px; /* 영화 타이틀처럼 넓은 자간 */
         }
         
-        input::placeholder { color: #333; letter-spacing: 3px; }
+        input::placeholder { color: #333; letter-spacing: 3px; font-weight: 400; }
         input:focus { border-bottom-color: #aaa; }
 
         /* 콘텐츠(이미지) 영역 */
@@ -67,7 +74,6 @@
             opacity: 0; 
             transition: opacity 3s ease-in-out; 
             text-align: center; 
-            /* 모바일 대응을 위한 반응형 너비 (기존 유지) */
             width: 85%; 
             max-width: 480px; 
         }
@@ -79,17 +85,22 @@
             filter: brightness(0.9); 
         }
 
-        /* 히든 링크 디자인 */
+        /* [수정됨] 히든 링크 디자인 */
         .gap-link { 
             display: block; 
             margin-top: 60px; 
             text-decoration: none; 
-            color: #222; 
+            
+            /* 배경에 묻히지 않게 색상 밝기 조절 (#222 -> #555) */
+            color: #555; 
+            
             font-size: 0.8rem; 
             transition: color 1s; 
             cursor: pointer;
         }
-        .gap-link:hover, .gap-link:active { color: #666; } 
+        
+        /* 마우스 올렸을 때 더 밝게 빛나도록 설정 (#aaa) */
+        .gap-link:hover, .gap-link:active { color: #aaa; } 
     </style>
 </head>
 <body>
@@ -108,26 +119,22 @@
         const pwInput = document.getElementById('pw');
         const gate = document.getElementById('gate');
         const content = document.getElementById('content');
-        // 오디오 요소 선택
         const bgm = document.getElementById('bgm');
 
         pwInput.addEventListener('input', (e) => {
             const val = e.target.value;
 
-            // 글자 수가 4개가 되었을 때 검사
             if (val.length === 4) {
                 if (val === '0201') {
                     // [성공] 
-                    pwInput.blur(); // 키보드 내림
+                    pwInput.blur(); 
                     
-                    // 2. 음악 재생 및 볼륨 설정
-                    bgm.volume = 0.5; // 볼륨 50% 설정
-                    // 모바일 브라우저 정책상 재생이 안 될 수도 있으므로 예외 처리 추가
+                    bgm.volume = 0.5; 
                     bgm.play().catch(error => {
-                        console.log("오디오 자동 재생이 차단되었습니다. 사용자의 인터랙션이 필요할 수 있습니다.", error);
+                        console.log("오디오 자동 재생이 차단되었습니다.", error);
                     });
 
-                    gate.style.opacity = '0'; // 게이트 사라짐
+                    gate.style.opacity = '0'; 
 
                     setTimeout(() => {
                         gate.style.display = 'none';
@@ -136,10 +143,8 @@
                     }, 1000);
 
                 } else {
-                    // [실패] 오답 피드백 (고급스러운 Shake)
-                    pwInput.classList.add('error'); // 애니메이션 클래스 추가
-                    
-                    // 0.4초 뒤에 클래스 제거 및 입력창 초기화 (재입력 유도)
+                    // [실패] 
+                    pwInput.classList.add('error'); 
                     setTimeout(() => {
                         pwInput.classList.remove('error');
                         pwInput.value = ''; 

@@ -3,29 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To. Neb</title>
+    <title>To.Neb</title>
     <style>
-        body { margin: 0; background-color: #0a0a0a; color: white; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        #gate { text-align: center; transition: opacity 1s; }
-        /* 입력창 디자인: 밑줄만 남긴 미니멀한 스타일 */
-        input { background: transparent; border: none; border-bottom: 1px solid #444; color: white; text-align: center; font-size: 1.2rem; outline: none; width: 120px; padding: 10px; transition: border-color 0.5s; }
-        input:focus { border-bottom-color: #888; }
+        /* 1. 분위기 조성: 칠흑 같은 어둠과 명조체의 우아함 */
+        body { 
+            margin: 0; 
+            background-color: #0a0a0a; /* 깊은 다크 그레이 */
+            color: white; 
+            font-family: 'AppleMyungjo', 'NanumMyeongjo', 'Batang', serif; /* 명조체 우선 */
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; /* 스크롤 방지 */
+        }
+
+        /* 2. 게이트(입력창) 디자인 */
+        #gate { 
+            text-align: center; 
+            transition: opacity 1s ease-in-out; 
+            width: 100%;
+        }
+
+        input { 
+            background: transparent; 
+            border: none; 
+            border-bottom: 1px solid #555; /* 아주 얇은 밑줄 */
+            color: #eee; 
+            text-align: center; 
+            font-size: 1.5rem; 
+            outline: none; 
+            width: 140px; /* 4자리에 맞춰 너비 조정 */
+            padding: 10px; 
+            letter-spacing: 8px; /* 숫자 간격을 넓혀서 우아하게 */
+            font-family: inherit;
+            border-radius: 0; /* 모바일 사파리 기본 스타일 제거 */
+        }
         
-        /* 이미지 현상 연출 */
-        #content { display: none; opacity: 0; transition: opacity 3s; text-align: center; width: 90%; max-width: 500px; }
-        img { width: 100%; height: auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .gap-link { display: block; margin-top: 50px; text-decoration: none; color: #333; font-size: 0.8rem; transition: color 1s; }
-        .gap-link:hover { color: #888; }
+        input::placeholder { color: #333; letter-spacing: 2px; }
+        input:focus { border-bottom-color: #aaa; }
+
+        /* 3. 콘텐츠(이미지) 디자인 */
+        #content { 
+            display: none; 
+            opacity: 0; 
+            transition: opacity 3s ease-in-out; /* 3초간 천천히 현상 */
+            text-align: center; 
+            width: 85%; /* 모바일 최적화 너비 */
+            max-width: 480px; 
+        }
+
+        img { 
+            width: 100%; 
+            height: auto; 
+            box-shadow: 0 0 40px rgba(0,0,0,0.9); /* 이미지가 허공에 뜬 느낌 */
+            filter: brightness(0.9); /* 너무 쨍하지 않게 살짝 톤 다운 */
+        }
+
+        /* 4. 히든 링크 디자인 */
+        .gap-link { 
+            display: block; 
+            margin-top: 60px; 
+            text-decoration: none; 
+            color: #222; /* 거의 안 보이게 숨김 */
+            font-size: 0.8rem; 
+            transition: color 1s; 
+            cursor: pointer;
+        }
+        .gap-link:hover, .gap-link:active { color: #666; } /* 터치 시 반응 */
     </style>
 </head>
 <body>
+
     <div id="gate">
-        <input type="password" id="pw" maxlength="4" autofocus placeholder="...">
+        <input type="tel" id="pw" maxlength="4" autofocus placeholder="..." autocomplete="off">
     </div>
 
     <div id="content">
         <img src="1.png" alt="겨울 선착장">
-        <a href="https://open.kakao.com/o/sY8oahei" class="gap-link">[ Link ]</a>
+        
+        <a href="https://open.kakao.com/o/sY8oahei" class="gap-link" target="_blank">[ Link ]</a>
     </div>
 
     <script>
@@ -33,15 +90,24 @@
         const gate = document.getElementById('gate');
         const content = document.getElementById('content');
 
+        // 입력 감지 리스너
         pwInput.addEventListener('input', (e) => {
-            // 비밀번호를 0201로 수정했습니다
-            if (e.target.value === '0201') {
-                // 입력창 페이드 아웃
+            const val = e.target.value;
+
+            // [핵심 로직] 암호 '0201' 체크
+            if (val === '0201') {
+                // 1. 키보드 내리기 (모바일 UX)
+                pwInput.blur(); 
+
+                // 2. 게이트 페이드 아웃
                 gate.style.opacity = '0';
+
+                // 3. 1초 뒤 게이트 삭제 및 콘텐츠 준비
                 setTimeout(() => {
                     gate.style.display = 'none';
-                    // 이미지 영역 표시 및 페이드 인 시작
                     content.style.display = 'block';
+                    
+                    // 4. 약간의 딜레이 후 이미지 페이드 인 (브라우저 렌더링 확보)
                     setTimeout(() => { 
                         content.style.opacity = '1'; 
                     }, 100);

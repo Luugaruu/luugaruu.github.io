@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>나의 첫 사이트</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To. Unknown</title>
+    <style>
+        body { margin: 0; background-color: #0a0a0a; color: white; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        #gate { text-align: center; transition: opacity 1s; }
+        input { background: transparent; border: none; border-bottom: 1px solid #444; color: white; text-align: center; font-size: 1.2rem; outline: none; width: 100px; padding: 10px; }
+        #content { display: none; opacity: 0; transition: opacity 3s; text-align: center; width: 90%; max-width: 500px; }
+        img { width: 100%; height: auto; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        .gap-link { display: block; margin-top: 50px; text-decoration: none; color: #333; font-size: 0.8rem; transition: color 1s; }
+        .gap-link:hover { color: #888; }
+    </style>
 </head>
 <body>
-    <h1>반가워요! 제 첫 깃허브 페이지입니다.</h1>
-    <p>성공적으로 웹사이트를 만들었습니다!</p>
+    <div id="gate">
+        <input type="password" id="pw" maxlength="3" autofocus placeholder="...">
+    </div>
+
+    <div id="content">
+        <img src="your_poem_image.png" alt="겨울 선착장">
+        <a href="your_kakao_link" class="gap-link">[ 틈 ]</a>
+    </div>
+
+    <script>
+        const pwInput = document.getElementById('pw');
+        const gate = document.getElementById('gate');
+        const content = document.getElementById('content');
+
+        pwInput.addEventListener('input', (e) => {
+            if (e.target.value === '153') {
+                gate.style.opacity = '0';
+                setTimeout(() => {
+                    gate.style.display = 'none';
+                    content.style.display = 'block';
+                    setTimeout(() => { content.style.opacity = '1'; }, 100);
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 </html>

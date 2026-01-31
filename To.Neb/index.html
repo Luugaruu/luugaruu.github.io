@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>To.Neb</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +19,12 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
+            /* 모바일 주소창 대응을 위해 dvh 사용 (지원 안하면 vh 사용) */
             height: 100vh; 
+            height: 100dvh; 
             overflow: hidden; 
+            /* 모바일 터치 시 파란 박스 제거 */
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* 게이트 영역 */
@@ -43,7 +47,7 @@
             animation: shake 0.4s ease-in-out;
         }
 
-        /* [수정됨] 입력창 디자인 개선 (폰트 변경 및 디자인 최적화) */
+        /* [수정됨] 입력창 디자인 개선 */
         input { 
             background: transparent; 
             border: none; 
@@ -51,18 +55,20 @@
             color: #eee; 
             text-align: center; 
             outline: none; 
-            padding: 10px; 
+            padding: 5px 10px; /* 패딩을 살짝 줄임 */
             border-radius: 0; 
             transition: border-bottom-color 0.3s;
 
-            /* 폰트: 코모란트 가라몬드 적용 */
+            /* 폰트 설정 */
             font-family: 'Cormorant Garamond', serif; 
+            font-size: 1.8rem;   
+            font-weight: 600;    
+            width: 150px;        
+            letter-spacing: 10px; 
             
-            /* 디자인 디테일: 숫자가 우아하게 보이도록 크기와 자간 조정 */
-            font-size: 1.8rem;   /* 폰트가 얇아서 크기를 키움 */
-            font-weight: 600;    /* 선명도를 위해 두께 추가 */
-            width: 150px;        /* 커진 숫자에 맞춰 너비 확보 */
-            letter-spacing: 10px; /* 영화 타이틀처럼 넓은 자간 */
+            /* [중요] 캐럿(깜빡이는 막대기) 길이 줄이기 */
+            line-height: 1.2; 
+            caret-color: #ccc; /* 캐럿 색상을 은은한 회색으로 */
         }
         
         input::placeholder { color: #333; letter-spacing: 3px; font-weight: 400; }
@@ -85,21 +91,17 @@
             filter: brightness(0.9); 
         }
 
-        /* [수정됨] 히든 링크 디자인 */
+        /* 히든 링크 디자인 */
         .gap-link { 
             display: block; 
             margin-top: 60px; 
             text-decoration: none; 
-            
-            /* 배경에 묻히지 않게 색상 밝기 조절 (#222 -> #555) */
             color: #555; 
-            
             font-size: 0.8rem; 
             transition: color 1s; 
             cursor: pointer;
         }
         
-        /* 마우스 올렸을 때 더 밝게 빛나도록 설정 (#aaa) */
         .gap-link:hover, .gap-link:active { color: #aaa; } 
     </style>
 </head>
@@ -107,7 +109,7 @@
     <audio id="bgm" src="bgm.mp3" preload="auto"></audio>
 
     <div id="gate">
-        <input type="tel" id="pw" maxlength="4" autofocus placeholder="...." autocomplete="off">
+        <input type="text" id="pw" maxlength="4" inputmode="numeric" autofocus placeholder="...." autocomplete="off">
     </div>
 
     <div id="content">
@@ -121,7 +123,11 @@
         const content = document.getElementById('content');
         const bgm = document.getElementById('bgm');
 
+        // [중요] 숫자만 입력되도록 강제하는 함수
         pwInput.addEventListener('input', (e) => {
+            // 정규식을 사용하여 숫자가 아닌 문자는 즉시 지워버림
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            
             const val = e.target.value;
 
             if (val.length === 4) {

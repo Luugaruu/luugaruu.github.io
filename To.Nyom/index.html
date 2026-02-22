@@ -201,6 +201,15 @@ Mbti는 일 할 땐 entp 혼자 있을 땐 infp인 것 같아요.
                 }
             }
         });
+
+        // [폰트 로드 확인용 임시 코드 - 확인 후 삭제]
+        document.fonts.ready.then(() => {
+            if (document.fonts.check('1rem "Nyom"')) {
+                document.querySelectorAll('.text-content, #gate input').forEach(el => {
+                    el.style.color = 'red';
+                });
+            }
+        });
     </script>
 </body>
 </html>

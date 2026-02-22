@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>To.Nyom</title>
 
     <style>
@@ -23,12 +23,16 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            /* 모바일 주소창 대응을 위해 dvh 사용 (지원 안하면 vh 사용) */
+            /* 모바일 주소창/노치 대응 */
             height: 100vh; 
             height: 100dvh; 
+            min-height: -webkit-fill-available;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             overflow: hidden; 
             /* 모바일 터치 시 파란 박스 제거 */
             -webkit-tap-highlight-color: transparent;
+            /* iOS 터치 스크롤 최적화 */
+            -webkit-overflow-scrolling: touch;
         }
 
         /* 게이트 영역 */
@@ -89,6 +93,16 @@
             max-height: 85vh;
             max-height: 85dvh;
             overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE, Edge */
+            -webkit-overflow-scrolling: touch; /* iOS 모멘텀 스크롤 */
+            overscroll-behavior: contain; /* 스크롤 영역 밖으로 튕김 방지 */
+            touch-action: pan-y; /* 세로 스크롤만 허용 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        #content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         #content .text-content {
@@ -104,11 +118,13 @@
         .gap-link { 
             display: block; 
             margin-top: 60px; 
+            padding: 12px 0; /* 모바일 터치 타겟 확보 (최소 44px) */
             text-decoration: none; 
             color: #555; 
             font-size: 0.8rem; 
             transition: color 1s; 
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .gap-link:hover, .gap-link:active { color: #aaa; } 

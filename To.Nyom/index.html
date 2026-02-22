@@ -129,27 +129,29 @@
         
         .gap-link:hover, .gap-link:active { color: #eee; }
 
-        /* 사진 갤러리 - 5장 빈틈 없이 하나의 사각형 */
+        /* 사진 갤러리 - 에디토리얼 스타일 */
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1.2fr 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 0;
-            margin: 24px 0;
+            gap: 10px;
+            margin: 28px 0;
             width: 100%;
-            aspect-ratio: 3 / 2;
-            overflow: hidden;
-            border-radius: 4px;
+            max-width: 480px;
         }
         .photo-gallery .gallery-item {
             overflow: hidden;
+            border-radius: 6px;
             cursor: pointer;
             background: #1a1a1a;
         }
-        .photo-gallery .gallery-item:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .photo-gallery .gallery-item:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
         .photo-gallery .gallery-item:nth-child(2) { grid-column: 2; grid-row: 1; }
         .photo-gallery .gallery-item:nth-child(3) { grid-column: 3; grid-row: 1; }
-        .photo-gallery .gallery-item:nth-child(4) { grid-column: 1 / span 2; grid-row: 2; }
+        .photo-gallery .gallery-item:nth-child(4) { grid-column: 2; grid-row: 2; }
         .photo-gallery .gallery-item:nth-child(5) { grid-column: 3; grid-row: 2; }
         .photo-gallery .gallery-item img {
             width: 100%;

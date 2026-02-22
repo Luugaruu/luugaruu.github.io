@@ -127,7 +127,87 @@
             -webkit-tap-highlight-color: transparent;
         }
         
-        .gap-link:hover, .gap-link:active { color: #eee; } 
+        .gap-link:hover, .gap-link:active { color: #eee; }
+
+        /* 사진 갤러리 */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 24px 0;
+            width: 100%;
+        }
+        .photo-gallery .gallery-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #1a1a1a;
+        }
+        .photo-gallery .gallery-item:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        .photo-gallery .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .photo-gallery .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 라이트박스 */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: background 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .lightbox-close:hover,
+        .lightbox-close:active {
+            background: rgba(255,255,255,0.2);
+        }
     </style>
 </head>
 <body>
@@ -136,7 +216,7 @@
     </div>
 
     <div id="content">
-        <p class="text-content">안녕하세요.
+        <div class="text-content">안녕하세요.
 
 처음 구인글을 본 순간부터 쪽지를 보내고 싶었는데요.
 일이 너무 바쁘기도 하고 인기가 무척 많으실 것 같아 이래저래 망설이다가 이렇게 편지를 쓰게 됐네요.
@@ -148,11 +228,17 @@
 
 외적인 것은 무쌍에 개성이 드러나는 힙한 무드로 꾸미고 다니는 스타일입니다.
 헤어스타일이나 향에도 민감한 편이라 전체적인 분위기를 맞추는 것에 신경쓰고 다녀요.
-백문이불여일견이라고 글 보단 사진을 보는게 정확할테니 간단한 갤러리 형식으로 남겨봅니다.
+백문이불여일견이라고 글 보단 사진을 보는게 정확할테니 간단한 갤러리 형식으로 남겨봅니다.</div>
 
-[사진]
+        <div class="photo-gallery">
+            <div class="gallery-item" data-src="1.jpg"><img src="1.jpg" alt="사진 1" loading="lazy"></div>
+            <div class="gallery-item" data-src="2.jpg"><img src="2.jpg" alt="사진 2" loading="lazy"></div>
+            <div class="gallery-item" data-src="3.jpg"><img src="3.jpg" alt="사진 3" loading="lazy"></div>
+            <div class="gallery-item" data-src="4.jpg"><img src="4.jpg" alt="사진 4" loading="lazy"></div>
+            <div class="gallery-item" data-src="5.jpg"><img src="5.jpg" alt="사진 5" loading="lazy"></div>
+        </div>
 
-그리고 가장 중요한 성격과 성향..에 대해서 말씀드리자면, 나이가 들면서 점점 차분해지고 집에 있는걸 선호하게 됐어요.
+        <div class="text-content">그리고 가장 중요한 성격과 성향..에 대해서 말씀드리자면, 나이가 들면서 점점 차분해지고 집에 있는걸 선호하게 됐어요.
 일이 워낙 바쁘기도 하고 대인 관계가 좁은 편이라 휴일에 약속을 잡을 일이 없다보니 잔잔하고 무던하게 홀로 지내고 있네요.
 그래서 도파민 터지는 그런 자극적인 무언가를 약속드리긴 어렵지만 오래 갈 사람을 찾고 계신다면 제가 이 점은 뇸님에게 어필 할 수 있지 않을까 생각해요.
 
@@ -180,8 +266,13 @@ Mbti는 일 할 땐 entp 혼자 있을 땐 infp인 것 같아요.
 
 진부하지만 있는 그대로의 저를 소개한 이 편지가 뇸님의 마음에 와닿았길 바라면서 글을 마무리할게요.
 
-읽어주셔서 감사하고 굳이 답장이 안오더라도 뇸님이 따뜻한 봄을 맞이하시길 바랄게요..!</p>
+읽어주셔서 감사하고 굳이 답장이 안오더라도 뇸님이 따뜻한 봄을 맞이하시길 바랄게요..!</div>
         <a href="https://open.kakao.com/o/sY8oahei" class="gap-link" target="_blank">[ Link ]</a>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="닫기">×</button>
+        <img src="" alt="확대 이미지" id="lightboxImg">
     </div>
 
     <script>
@@ -218,6 +309,30 @@ Mbti는 일 할 땐 entp 혼자 있을 땐 infp인 것 같아요.
                     }, 400);
                 }
             }
+        });
+
+        // 라이트박스 (클릭 시 자세히 보기)
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const src = item.dataset.src;
+                lightboxImg.src = src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
         });
     </script>
 </body>
